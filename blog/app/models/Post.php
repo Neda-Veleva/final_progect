@@ -40,9 +40,8 @@ class Post extends Eloquent {
 
         $post = new Post;
         $post->user_id = Auth::user()->id;
-        $post->title = Input::get('title');
+        $post->title = ucwords(Input::get('title'));
         $post->body  = Input::get('body');
-        $post->url_slug = Str::slug(Input::get('title'));
 
         if ($post->save()) {
             $input = Input::get('tags');
@@ -70,9 +69,8 @@ class Post extends Eloquent {
         $id = Input::get('id');
         $post = Post::find($id);
         $post->user_id = Auth::user()->id;
-        $post->title = Input::get('title');
+        $post->title = ucwords(Input::get('title'));
         $post->body  = Input::get('body');
-        $post->url_slug = Str::slug(Input::get('title'));
 
         if ($post->save()) {
             $input = Input::get('tags');

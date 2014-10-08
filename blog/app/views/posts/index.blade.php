@@ -2,7 +2,7 @@
 
 @section('head')
     @parent
-    <title>View all posts</title>
+    <title>View All Posts</title>
 @stop
 
 @section('content')

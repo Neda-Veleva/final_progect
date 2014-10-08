@@ -94,20 +94,21 @@
         <li>
             <h2>Tags</h2>
             <div>
-                @if(!$tags->count())
-                    <li>No tags</li>        
-                @else
-                <li class="tags">
-                    @foreach($tags as $tag)
-                        @foreach($tag->posts as $post)
-                            @if($post->user_id == $user_id)
-                               <span>    
-                                  {{ HTML::Link("tag/{$tag->id}", $tag->tag_name, array($tag->id)) }}                             
-                              </span>
-                            @endif
+                @if($tags->count())
+                    <li class="tags">
+                        @foreach($tags as $tag)
+                            @foreach($tag->posts as $post)
+                                @if($post->user_id == $user_id)
+                                   <span>    
+                                      {{ HTML::Link("tag/{$tag->id}", $tag->tag_name, array($tag->id)) }}                             
+                                  </span>
+                                @endif
+                            @endforeach
                         @endforeach
-                    @endforeach
-                </li> 
+                    </li> 
+
+                @else
+                    <li class="tags">No tags</li>        
                 @endif
             </div>
         </li>

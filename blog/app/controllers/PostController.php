@@ -86,9 +86,12 @@ class PostController extends \BaseController {
 	 */
 	public function update($id)
 	{
-            
+            $rules = array(
+                'title' => 'required|min:6',
+                'body' => 'required',
+            );
 	    $data = Input::all();
-            $validator = Post::validate($data);
+            $validator = Validator::make($data, $rules); 
                     
             if($validator->fails()){
                 return Redirect::to("/post/{$id}/edit")->withErrors($validator)->withInput()->with('error', 'Некоректно въведени данни!');

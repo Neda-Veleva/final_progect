@@ -15,8 +15,7 @@ class CreateTagTable extends Migration {
 		Schema::create('tags', function($table)
                 {
                     $table->increments('id');                    
-                    $table->string('tag_name');
-                    $table->integer('count_tag')->default(0);
+                    $table->string('tag_name');                    
                     $table->timestamps(); 
                 });
 	}

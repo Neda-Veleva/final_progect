@@ -27,13 +27,14 @@ Route::group(array('before' => 'auth'), function(){
     
     Route::get('/post/', 'PostController@index');
     Route::get('/post/create', 'PostController@create');
+    Route::post('/post/', array('before'=>'csrf', 'uses'=>'PostController@store'));
     Route::get('/post/{id}/edit', 'PostController@edit');    
     Route::put('/post/{id}', 'PostController@update');
     Route::delete('/post/{id}', 'PostController@destroy');
     
 });
 
-Route::post('/post/', array('before'=>'csrf', 'uses'=>'PostController@store'));
+
 Route::get('/post/{id}', 'PostController@show');
 
 Route::post('/post/{id}/comment/', array('before'=>'csrf', 'uses'=>'CommentController@store'));

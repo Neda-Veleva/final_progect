@@ -2,7 +2,7 @@
 
 @section('head')
     @parent
-    <title>{{ $post->title }}</title>
+    <title>{{ $post->title }} Page</title>
 @stop
 
 @section('content')
@@ -17,12 +17,9 @@
         {{ $post->created_at->diffForHumans() }}
         </p>
         <br />
-                
         <p>
             {{ $post->body }}
-
         </p>  
-        
     <footer>
         <p>            
             {{ Str::plural("Tag", count($post->tags)) }}:                        
@@ -37,63 +34,41 @@
 
 <div>
     <h2>Leave a Comment</h2>
-    @if(Auth::check())
+    <div>
+        @if($errors->has())
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li class="error">{{ $error }}</li>
+            @endforeach
+        </ul>
+        @endif
+    </div>
+    
         {{ Form::open(['url' => "/post/{$post->id}/comment"]) }} 
+        @if(Auth::check())
             <div>
-                @foreach ($errors->get('name') as $error)
-                    <span class="error">{{ $error }}</span>
-                @endforeach
-                <br />
-                {{ Form::label('name', 'Name: ') }}            
+                {{ Form::label('name', 'Name: ') }}     
+                <br/>
                 {{ Form::text('name', $post->user->name) }}                  
             </div>   
             <div>
-                @foreach ($errors->get('email') as $error)
-                    <span class="error">{{ $error }}</span>                
-                @endforeach
-                <br />
                 {{ Form::label('email', 'Email: ') }}
+                <br/>
                 {{ Form::text('email', $post->user->email) }}                  
             </div> 
+        @else
             <div>
-                @if ($errors->get('body'))
-                <span class="error">{{ $errors->first('body') }}</span>
-                @endif
-                <br/>
-                {{ Form::label('body', 'Body: ') }}
-                <br />
-                {{ Form::textarea('body', Input::old('body')) }}            
-            </div>
-            <br/>
-            {{ Form::hidden('post_id', $post->id) }}
-            {{ Form::submit('Submit Comment')}}
-        {{ Form::close()}} 
-    
-    @else
-        {{ Form::open(['url' => "/post/{$post->id}/comment"]) }} 
-            <div>
-                @foreach ($errors->get('name') as $error)
-                    <span class="error">{{ $error }}</span>
-                @endforeach
-                <br />
                 {{ Form::label('name', 'Name: ') }} 
                 <br />
                 {{ Form::text('name', Input::old('name')) }}                  
-            </div>   
+            </div>
             <div>
-                @foreach ($errors->get('email') as $error)
-                    <span class="error">{{ $error }}</span>                
-                @endforeach
-                <br />
                 {{ Form::label('email', 'Email: ') }}
                 <br />
                 {{ Form::text('email', Input::old('email')) }}                  
             </div> 
+        @endif
             <div>
-                @if ($errors->get('body'))
-                <span class="error">{{ $errors->first('body') }}</span>
-                @endif
-                <br/>
                 {{ Form::label('body', 'Body: ') }}
                 <br />
                 {{ Form::textarea('body', Input::old('body')) }}            
@@ -101,14 +76,13 @@
             <br/>
             {{ Form::hidden('post_id', $post->id) }}
             {{ Form::submit('Submit Comment')}}
-        {{ Form::close()}} 
-    @endif
+        {{ Form::close()}}     
 
 </div>
 
 <!-- Display comments-->
 <div>
-    @if($post->comments->count() <= 0)
+    @if(!$post->comments->count())
         <h2>No comments</h2>        
     @else
         <h2>{{ $post->comments->count() }} {{ Str::plural("Comment", count($post->comments)) }}:</h2>

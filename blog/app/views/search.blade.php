@@ -30,7 +30,7 @@
                 published by
                 <a href="#">{{ $result->user->name }}</a> 
                 <br/>
-                on <time>{{ $result->created_at->format('l jS \\of F Y') }}</time> 
+                on {{ $result->created_at->format('l jS \\of F Y') }}
                 <br/>
                 <span>{{ $result->comments->count() }} {{ Str::plural("Comment", count($result->comments)) }}</span>
             </p>
@@ -39,9 +39,8 @@
     @endforeach
     </ul>
 @else 
-    <p>Съжаляваме, но няма намерени резултати за Вашето търсене: 
-        <br/>
-        {{$search}}</p>
+    <p>Съжаляваме, но няма намерени резултати за Вашето търсене: {{ $search }}
+    </p>
     {{ Form::open(array('url' => 'search')) }}
         {{ Form::label('search', 'Search: ') }} 
         {{ Form::text('search') }} 

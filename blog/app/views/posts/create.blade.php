@@ -6,21 +6,23 @@
 @stop
 
 @section('content')
+    <h2>Create Post</h2>
+        <div>
+            @if($errors->has())
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li class="error">{{ $error }}</li>
+                @endforeach
+            </ul>
+            @endif
+        </div>
     {{ Form::open(['url' => '/post']) }} 
         <div>
-            @foreach ($errors->get('title') as $error)
-                <span class="error">{{ $error }}</span>
-            @endforeach
-            <br/>
             {{ Form::label('title', 'Title: ') }}
             <br/>
             {{ Form::text('title', Input::old('title')) }}                  
         </div>   
         <div>
-            @if ($errors->get('body'))
-                <span class="error">{{ $errors->first('body') }}</span>                
-            @endif
-            <br/>
             <div>
             {{ Form::label('body', 'Body: ') }} 
             </div>
@@ -38,10 +40,6 @@
             
         </div>
         <div>
-            @if ($errors->get('tags'))
-                <span class="error">{{ $errors->first('tags') }}</span>                
-            @endif
-            <br/>   
             {{ Form::label('tags', 'Tags: ') }}
             <br/>
             {{ Form::text('tags', '', array('placeholder' => 'Enter your tags seperated by commas...'), Input::old('tags')) }}

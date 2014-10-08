@@ -2,27 +2,29 @@
 
 @section('head')
     @parent
-    <title>Edit post {{ $post->title }}</title>
+    <title>Edit Post {{ $post->title }}</title>
 @stop
 
 @section('content')
+<h2>Edit Post</h2>
+    <div>
+        @if($errors->has())
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li class="error">{{ $error }}</li>
+            @endforeach
+        </ul>
+        @endif
+    </div>
 {{ Form::model($post, array('method' => 'PUT', 'url' => array('post', $post->id))) }} 
         <div>
             {{ Form::label('title', 'Title: ') }}
             <br />
-            @foreach ($errors->get('title') as $error)
-                <span>{{ $error }}</span>
-                <br />
-            @endforeach
             {{ Form::text('title', $post->title) }}                  
         </div>   
         <div>
             {{ Form::label('body', 'Body: ') }}
             <br />
-            @if ($errors->get('body'))
-                <span>{{ $errors->first('body') }}</span>
-                <br />
-            @endif
             {{ Form::textarea('body', $post->body, array('id' => 'editor1')) }}
             <script>
                 // Replace the <textarea id="editor1"> with a CKEditor
@@ -37,7 +39,7 @@
         <div>
             {{ Form::label('tags', 'Tags: ') }}
             <br />
-            {{ Form::text('tags', $outputTags) }}
+            {{ Form::text('tags', '', array('placeholder' => 'Enter your tags seperated by commas...')) }}
         </div>
         {{ Form::hidden('id', $post->id) }}
         {{ Form::submit('Edit') }}
